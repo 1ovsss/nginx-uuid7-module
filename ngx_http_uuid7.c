@@ -99,14 +99,9 @@ static ngx_int_t ngx_http_uuid7_variable(ngx_http_request_t *r, ngx_http_variabl
     uuid[6] = 0x70 | (uuid[6] & 0x0f); // Set UUID version to 7
     uuid[8] = 0x80 | (uuid[8] & 0x3f); // Set UUID variant to DCE 1.1
 
-    char *str = ngx_palloc(r->pool, UUID_STR_LENGTH);
-    if (str == NULL)
-    {
-        *v = ngx_http_variable_null_value;
-        return NGX_OK;
-    }
-
+    char str[UUID_STR_LENGTH];
     int s = 0;
+
     for (int i = 0; i < UUID_T_LENGTH; i++)
     {
         if (i == 4 || i == 6 || i == 8 || i == 10)
@@ -119,7 +114,13 @@ static ngx_int_t ngx_http_uuid7_variable(ngx_http_request_t *r, ngx_http_variabl
     str[s] = '\0';
 
     v->len = UUID_STR_LENGTH;
-    v->data = (u_char *)str;
+    v->data = ngx_palloc(r->pool, UUID_STR_LENGTH);
+    if (v->data == NULL)
+    {
+        *v = ngx_http_variable_null_value;
+        return NGX_OK;
+    }
+    ngx_memcpy(v->data, str, UUID_STR_LENGTH);
     v->valid = 1;
     v->no_cacheable = 0;
     v->not_found = 0;
