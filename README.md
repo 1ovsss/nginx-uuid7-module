@@ -1,6 +1,10 @@
 # nginx-uuid7-module
 
-This project is just adjustments for already existing algorithms and module.
+This project is just rework of already existing algorithms and module.<br />
+See:<br />
+[https://github.com/mibamur/nginx-modules-guide/](https://github.com/cybozu/nginx-uuid4-module/tree/master)<br />
+[https://gist.github.com/h0nza/uuidv7.c](https://gist.github.com/h0nza/c11c6c1af9550ce5be816c10079eea0b)<br />
+
 
 `nginx-uuid7-module` provides a directive to set version-7 UUIDs for variables.
 
